@@ -1,0 +1,11 @@
+PASS	Basic Statistics	TB_R2.fastq
+FAIL	Per base sequence quality	TB_R2.fastq
+FAIL	Per tile sequence quality	TB_R2.fastq
+PASS	Per sequence quality scores	TB_R2.fastq
+FAIL	Per base sequence content	TB_R2.fastq
+PASS	Per sequence GC content	TB_R2.fastq
+PASS	Per base N content	TB_R2.fastq
+PASS	Sequence Length Distribution	TB_R2.fastq
+PASS	Sequence Duplication Levels	TB_R2.fastq
+PASS	Overrepresented sequences	TB_R2.fastq
+FAIL	Adapter Content	TB_R2.fastq

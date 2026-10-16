@@ -1,0 +1,3 @@
+Module	Section	Sample Name	Source
+FastQC	all_sections	trimmed_R1	/home/rishika/NGS_MTB/Qc/fastqc_trimmed/trimmed_R1_fastqc.zip
+FastQC	all_sections	trimmed_R2	/home/rishika/NGS_MTB/Qc/fastqc_trimmed/trimmed_R2_fastqc.zip

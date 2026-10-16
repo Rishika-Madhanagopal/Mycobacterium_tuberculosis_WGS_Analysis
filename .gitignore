@@ -1,0 +1,11 @@
+Data/*.fastq
+Data/*.fasta
+Data/*.bam
+Data/*.sam
+Alignment/*.bam
+Alignment/*.sam
+*.bai
+Trimmed/*.fastq
+Alignment/
+Variant/*.bcf
+Data/*.fasta*
