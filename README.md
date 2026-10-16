@@ -51,6 +51,7 @@ Filtering ---QUAL < 20 AND DP < 10 flagged as LOWQUAL; PASS variants extracted f
 |
 v
 Annotation ---SnpEff (Mycobacterium_tuberculosis_h37rv)
+```
 
 ## Tools
 
