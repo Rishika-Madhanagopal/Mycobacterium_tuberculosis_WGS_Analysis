@@ -175,11 +175,11 @@ HIGH impact variants (43 frameshifts, 7 stop gains, 1 stop loss) represent predi
 
 ## Citations
 
-**Dataset.** Iñaki, Peter, Matthew, & Skye. (2019). M. tuberculosis bioinformatics training data (Version 3) [Dataset]. Zenodo. https://doi.org/10.5281/zenodo.3497385
+**Dataset:** Iñaki, Peter, Matthew, & Skye. (2019). M. tuberculosis bioinformatics training data (Version 3) [Dataset]. Zenodo. https://doi.org/10.5281/zenodo.3497385
 
-**Reference genome.** Cole ST, Brosch R, Parkhill J, et al. Deciphering the biology of *Mycobacterium tuberculosis* from the complete genome sequence. *Nature* 393:537–544 (1998). doi:10.1038/31159
+**Reference genome:** Cole ST, Brosch R, Parkhill J, et al. Deciphering the biology of *Mycobacterium tuberculosis* from the complete genome sequence. *Nature* 393:537–544 (1998). doi:10.1038/31159
 
-**Tools.**
+**Tools:**
 - Li H. Aligning sequence reads, BWA-MEM (2013). arXiv:1303.3997.
 - Danecek P et al. Twelve years of SAMtools and BCFtools. *GigaScience* 10:giab008 (2021).
 - Chen S et al. fastp: an ultra-fast all-in-one FASTQ preprocessor. *Bioinformatics* 34:i884–i890 (2018).
