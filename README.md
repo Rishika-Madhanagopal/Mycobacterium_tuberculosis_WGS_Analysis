@@ -189,7 +189,7 @@ HIGH impact variants (43 frameshifts, 7 stop gains, 1 stop loss) represent predi
 
 ## Conclusion
 
-This project successfully implemented an end-to-end NGS variant calling workflow for *Mycobacterium tuberculosis* H37Rv. Trimming improved read quality (Q30: 66.52% → 83.32%), alignment achieved a 99.59% mapping rate, and an average coverage of 43.7× provided sufficient depth for variant detection. Of 1,518 raw variant records, 1,243 passed quality and depth filters. SnpEff annotation identified variants of predicted HIGH and MODERATE impact, including missense variants in genes associated with drug resistance pathways.
+This project successfully implemented an end-to-end NGS variant calling workflow for *Mycobacterium tuberculosis* H37Rv. Trimming improved read quality (Q30: 66.52% → 83.32%), alignment achieved a 99.59% mapping rate, and an average coverage of 43.7× provided sufficient depth for variant detection. Of 1,180 raw variant records, 1,133 passed quality and depth filters. SnpEff annotation identified variants of predicted HIGH and MODERATE impact, including missense variants in genes associated with drug resistance pathways.
 
 ## License
 
