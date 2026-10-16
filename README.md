@@ -187,6 +187,10 @@ HIGH impact variants (43 frameshifts, 7 stop gains, 1 stop loss) represent predi
 - Cingolani P et al. A program for annotating and predicting the effects of single nucleotide polymorphisms, SnpEff. *Fly* 6:80–92 (2012).
 - Andrews S. FastQC: a quality control tool for high throughput sequence data. https://www.bioinformatics.babraham.ac.uk/projects/fastqc/ (2010).
 
+## Conclusion
+
+This project successfully implemented an end-to-end NGS variant calling workflow for *Mycobacterium tuberculosis* H37Rv. Trimming improved read quality (Q30: 66.52% → 83.32%), alignment achieved a 99.59% mapping rate, and an average coverage of 43.7× provided sufficient depth for variant detection. Of 1,518 raw variant records, 1,243 passed quality and depth filters. SnpEff annotation identified variants of predicted HIGH and MODERATE impact, including missense variants in genes associated with drug resistance pathways.
+
 ## License
 
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
