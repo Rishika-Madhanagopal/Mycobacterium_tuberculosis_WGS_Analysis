@@ -186,3 +186,7 @@ HIGH impact variants (43 frameshifts, 7 stop gains, 1 stop loss) represent predi
 - Ewels P et al. MultiQC: summarize analysis results for multiple tools and samples in a single report. *Bioinformatics* 32:3047–3048 (2016).
 - Cingolani P et al. A program for annotating and predicting the effects of single nucleotide polymorphisms, SnpEff. *Fly* 6:80–92 (2012).
 - Andrews S. FastQC: a quality control tool for high throughput sequence data. https://www.bioinformatics.babraham.ac.uk/projects/fastqc/ (2010).
+
+## License
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
