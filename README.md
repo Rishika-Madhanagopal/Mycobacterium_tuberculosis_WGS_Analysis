@@ -4,9 +4,9 @@ Variant calling and annotation from paired-end Illumina WGS of *M. tuberculosis*
 
 ## Biological Question
 
-**Primary.** What variants are present in the *M. tuberculosis* H37Rv genome when called from raw Illumina reads using a reference-based pipeline, and which carry HIGH functional impact?
+**Primary:** What variants are present in the *M. tuberculosis* H37Rv genome when called from raw Illumina reads using a reference-based pipeline, and which carry HIGH functional impact?
 
-**Secondary.** Do any identified variants fall within known drug resistance loci — specifically *gyrA*, *rpoB*, *katG*, and *inhA* — and what resistance phenotypes do they predict?
+**Secondary:** Do any identified variants fall within known drug resistance loci, specifically *gyrA*, *rpoB*, *katG*, and *inhA* and what resistance phenotypes do they predict?
 
 ## Background
 
@@ -22,7 +22,7 @@ This project builds and applies a complete WGS variant calling pipeline to a sin
 | Sequencing | Illumina paired-end, 251 bp reads |
 | Raw data | 2 FASTQ files (TB_R1.fastq, TB_R2.fastq) |
 | Reference | H37Rv, ASM19595v2, NC_000962.3, 4,411,532 bp |
-| Source | [add SRA accession if applicable] |
+| Source | [Zenodo 3497385 — M. tuberculosis bioinformatics training data](https://doi.org/10.5281/zenodo.3497385) |
 
 ## Workflow
 Raw FASTQ reads
