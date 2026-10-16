@@ -22,46 +22,50 @@ This project builds and applies a complete WGS variant calling pipeline to a sin
 | Sequencing | Illumina paired-end, 251 bp reads |
 | Raw data | 2 FASTQ files (TB_R1.fastq, TB_R2.fastq) |
 | Reference | H37Rv, ASM19595v2, NC_000962.3, 4,411,532 bp |
-| Source | [Zenodo 3497385 — M. tuberculosis bioinformatics training data](https://doi.org/10.5281/zenodo.3497385) |
+| Source | [Zenodo 3497385 - M. tuberculosis bioinformatics training data](https://doi.org/10.5281/zenodo.3497385) |
 
 ## Workflow
+```text
 Raw FASTQ reads
 |
 v
-Raw QC ── FastQC + MultiQC
+Raw QC --- FastQC + MultiQC
 |
 v
-Trimming ── fastp (adapter auto-detection, quality filtering)
+Trimming ---fastp (adapter auto-detection, quality filtering)
 |
 v
-Alignment ── BWA-MEM to H37Rv reference
+Alignment ---BWA-MEM to H37Rv reference
 |
 v
-BAM processing ── fixmate → sort → mark duplicates (samtools)
+BAM processing ---fixmate → sort → mark duplicates (samtools)
 |
 v
-Coverage assessment ── samtools depth
+Coverage assessment ---samtools depth
 |
 v
-Variant calling ── bcftools mpileup + call (--ploidy 1)
+Variant calling ---bcftools mpileup + call (--ploidy 1)
 |
 v
-Filtering ── QUAL ≥ 20, DP ≥ 10, AF ≥ 0.75
+Filtering ---QUAL < 20 AND DP < 10 flagged as LOWQUAL; PASS variants extracted for annotation
 |
 v
-Annotation ── SnpEff (Mycobacterium_tuberculosis_h37rv)
+Annotation ---SnpEff (Mycobacterium_tuberculosis_h37rv)
 
 ## Tools
 
 | Tool | Version | Purpose |
 |------|---------|---------|
-| FastQC | - | Per-file read quality assessment |
-| MultiQC | - | Aggregated QC reporting |
+| FastQC | v0.12.1 | Per-file read quality assessment |
+| MultiQC | 1.35 | Aggregated QC reporting |
 | fastp | 1.3.7 | Adapter trimming and quality filtering |
-| BWA-MEM | 0.7.19 | Read alignment to H37Rv |
+| BWA-MEM | 0.7.19 | Read alignment to reference genome |
 | samtools | 1.24 | BAM processing, duplicate marking, coverage |
 | bcftools | 1.24 | Variant calling and filtering |
 | SnpEff | 5.4.0c | Functional variant annotation |
+| Python/matplotlib | 3.14.7 | Visualisation |
+|Linux/ubuntu | 22.04 | Command-line analysis environment |
+| GitHub | 2.34.1 | Documentation and Version control |
 
 Conda environment declared in `environment.yml`.
 
@@ -78,11 +82,11 @@ conda activate ngs
 Reference genome:
 
 ```bash
-# Download H37Rv reference
-wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/195/955/GCF_000195955.2_ASM19595v2/GCF_000195955.2_ASM19595v2_genomic.fna.gz
-gunzip GCF_000195955.2_ASM19595v2_genomic.fna.gz
-bwa index reference.fasta
-samtools faidx reference.fasta
+# Download reference and FASTQ files from Zenodo:
+# https://doi.org/10.5281/zenodo.3497385
+# Place the .fasta file in Data/ and FASTQ files in Data/
+
+bwa index Data/Mycobacterium_tuberculosis_h37rv.ASM19595v2.dna.chromosome.Chromosome.fasta
 ```
 
 ## Usage
@@ -104,12 +108,13 @@ python3 Scripts/Visualisations.py
 ## Results
 
 **Alignment**
-- Mean coverage: [add value]×
-- Alignment rate: [add value]%
-
+- Mapped reads: 1,122,095 / 1,126,744 (99.59%)
+- Bases mapped: 192,645,972
+- Mean genome coverage: ~43.7×
+  
 **Variant calling**
 - Raw variants: 1,133
-- Variants passing filters (QUAL ≥ 20, DP ≥ 10, AF ≥ 0.75): [add number]
+- Variants passing filters (QUAL ≥ 20 AND DP ≥ 10): 1,133
 
 **SnpEff annotation (11,201 annotations across 1,133 variants)**
 
@@ -120,39 +125,63 @@ python3 Scripts/Visualisations.py
 | LOW | 386 | 3.45% |
 | MODIFIER | 9,869 | 88.11% |
 
-HIGH impact annotations: 43 frameshift variants, 7 stop gains, 1 stop loss, 1 frameshift + stop gain, 1 frameshift + start loss. Note: annotation counts exceed distinct variant counts because one variant can annotate multiple genes.
+HIGH impact annotations: 43 frameshift variants, 7 stop gains, 1 stop loss, 1 frameshift + stop gain, 1 frameshift + start loss. Note: annotation counts exceed distinct variant counts as one variant can annotate multiple genes.
 
-## Drug Resistance Mutations
+## Variants of Interest
 
-Three *gyrA* mutations associated with fluoroquinolone resistance were identified. No mutations were detected in *rpoB* (rifampicin), *katG* (isoniazid), or *inhA* (isoniazid) resistance loci.
+Three missense variants were identified in *gyrA*:
 
-| Gene | Mutation | Drug class | Predicted effect |
-|------|----------|------------|-----------------|
-| gyrA | [add] | Fluoroquinolones | Resistance |
-| gyrA | [add] | Fluoroquinolones | Resistance |
-| gyrA | [add] | Fluoroquinolones | Resistance |
+| Gene | Mutation | Nucleotide change | Impact |
+|------|----------|-------------------|--------|
+| gyrA | p.Glu21Gln | c.61G>C | MODERATE |
+| gyrA | p.Ser95Thr | c.284G>C | MODERATE |
+| gyrA | p.Gly668Asp | c.2003G>A | MODERATE |
+
+These are MODERATE impact missense variants. Their association with fluoroquinolone resistance requires cross-referencing against the WHO mutation catalogue; they are not confirmed resistance mutations based on functional annotation alone.
 
 ## Biological Interpretation
 
-Fluoroquinolone resistance via *gyrA* mutations is well-documented in *M. tuberculosis*. GyrA is the A subunit of DNA gyrase; mutations at positions 90 and 94 are the most commonly catalogued. The absence of *rpoB* and *katG* mutations suggests susceptibility to first-line drugs rifampicin and isoniazid in this isolate, though this conclusion is limited to the loci examined.
+GyrA is the A subunit of DNA gyrase, the primary target of fluoroquinolones in *M. tuberculosis*. Three missense variants were identified in *gyrA*, though none fall at the most commonly catalogued resistance positions (codon 90 and 94). Their functional significance was not assessed in this analysis.
 
-HIGH impact variants outside resistance loci represent loss-of-function events in non-essential or accessory genes; their clinical significance requires further investigation.
+The absence of variants in *rpoB* and *katG* is consistent with susceptibility to rifampicin and isoniazid, though this is limited to the loci examined by SnpEff annotation.
+
+HIGH impact variants (43 frameshifts, 7 stop gains, 1 stop loss) represent predicted loss-of-function events. Without further cross-referencing against resistance databases or phenotypic data, their clinical significance cannot be determined.
 
 ## Repository Structure
 
-├── Scripts/ # Shell and Python scripts for each pipeline stage
-├── Qc/ # FastQC and MultiQC reports (raw and trimmed)
-├── Alignment/ # samtools stats output
-├── Variant/ # VCF files (raw, filtered, PASS)
-├── Annotation/ # SnpEff annotated VCF
-├── Results/ # Summary tables, QC PDFs, fastp report
-├── Figures/ # Coverage, variant and QC plots
-├── Report/ # Final project report (PDF)
-└── environment.yml # Conda environment specification
-
+```
+├── Scripts/         # Bash and Python scripts for each pipeline stage
+│   ├── Quality_control.sh
+│   ├── Trimming.sh
+│   ├── Alignment.sh
+│   ├── Bam_processing.sh
+│   ├── Coverage.sh
+│   ├── Variant_calling.sh
+│   ├── Variant_filtering.sh
+│   ├── Annotation.sh
+│   └── Visualisations.py
+├── Data/            # Reference genome index files (FASTQ and FASTA excluded)
+├── Trimmed/         # Trimmed FASTQ files (excluded from version control)
+├── Qc/              # FastQC and MultiQC reports (raw and trimmed)
+├── Alignment/       # samtools stats output (BAM and SAM excluded)
+├── Variant/         # VCF files (raw, filtered, PASS, annotated)
+├── Annotation/      # SnpEff annotated VCF
+├── Results/         # Summary tables, QC PDFs, fastp report
+├── Figures/         # Coverage, variant and QC plots
+├── Report/          # Final project report (PDF)
+└── environment.yml  # Conda environment specification
+```
 
 ## Citations
 
-Reference genome. Cole ST et al. Deciphering the biology of *Mycobacterium tuberculosis* from the complete genome sequence. *Nature* 393:537–544 (1998). Assembly GCF_000195955.2.
+**Dataset.** Iñaki, Peter, Matthew, & Skye. (2019). M. tuberculosis bioinformatics training data (Version 3) [Dataset]. Zenodo. https://doi.org/10.5281/zenodo.3497385
 
-Tools. Li H. Aligning sequence reads, BWA-MEM (2013). Danecek P et al. Twelve years of SAMtools and BCFtools. *GigaScience* 10:giab008 (2021). Chen S et al. fastp. *Bioinformatics* 34:i884 (2018). Ewels P et al. MultiQC. *Bioinformatics* 32:3047 (2016). Cingolani P et al. SnpEff. *Fly* 6:80–92 (2012).
+**Reference genome.** Cole ST, Brosch R, Parkhill J, et al. Deciphering the biology of *Mycobacterium tuberculosis* from the complete genome sequence. *Nature* 393:537–544 (1998). doi:10.1038/31159
+
+**Tools.**
+- Li H. Aligning sequence reads, BWA-MEM (2013). arXiv:1303.3997.
+- Danecek P et al. Twelve years of SAMtools and BCFtools. *GigaScience* 10:giab008 (2021).
+- Chen S et al. fastp: an ultra-fast all-in-one FASTQ preprocessor. *Bioinformatics* 34:i884–i890 (2018).
+- Ewels P et al. MultiQC: summarize analysis results for multiple tools and samples in a single report. *Bioinformatics* 32:3047–3048 (2016).
+- Cingolani P et al. A program for annotating and predicting the effects of single nucleotide polymorphisms, SnpEff. *Fly* 6:80–92 (2012).
+- Andrews S. FastQC: a quality control tool for high throughput sequence data. https://www.bioinformatics.babraham.ac.uk/projects/fastqc/ (2010).
